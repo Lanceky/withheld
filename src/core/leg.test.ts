@@ -2,9 +2,9 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { loadErrand } from './errand.js';
-import { runLeg } from './leg.js';
-import type { CallStatus, LegResult, Turn } from './types.js';
+import { loadErrand } from './errand';
+import { runLeg } from './leg';
+import type { CallStatus, LegResult, Turn } from './types';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const fixtureDir = path.join(root, 'fixtures/legs');

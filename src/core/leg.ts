@@ -13,14 +13,14 @@ import {
   scanForNumbers,
   scanForProhibited,
   containsNumber,
-} from './budget.js';
+} from './budget';
 import {
   detectCallbackOffer,
   detectNumberRequest,
   detectScheduleRefusal,
   extractWindow,
-} from './callback.js';
-import { bindAnswers, disclosedFromBudget, type ProviderClaim } from './transcript.js';
+} from './callback';
+import { bindAnswers, disclosedFromBudget, type ProviderClaim } from './transcript';
 import {
   isTerminal,
   type CallStatus,
@@ -30,7 +30,7 @@ import {
   type LegStatus,
   type NextAction,
   type Turn,
-} from './types.js';
+} from './types';
 
 export interface LegInput {
   errand: ErrandFile;

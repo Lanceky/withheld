@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import path from 'node:path';
 import { readFileSync } from 'node:fs';
-import { runChain } from './chain.js';
-import { FixtureProvider, foldStatus, normalizeTurns } from './calle.js';
-import { loadErrand } from './errand.js';
-import type { ErrandFile } from './types.js';
+import { runChain } from './chain';
+import { FixtureProvider, foldStatus, normalizeTurns } from './calle';
+import { loadErrand } from './errand';
+import type { ErrandFile } from './types';
 
 const FIXTURES = path.resolve(process.cwd(), 'fixtures/legs');
 const NOW = new Date('2026-09-14T09:00:00Z');

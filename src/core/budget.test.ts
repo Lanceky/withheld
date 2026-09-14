@@ -8,7 +8,7 @@ import {
   scanAgainstBudget,
   scanForNumbers,
   scanForProhibited,
-} from './budget.js';
+} from './budget';
 
 const PERSON = '+254712345678';
 

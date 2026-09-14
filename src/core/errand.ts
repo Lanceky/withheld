@@ -7,8 +7,8 @@
  */
 
 import { z } from 'zod';
-import { refusesCall, scanForNumbers, scanForProhibited } from './budget.js';
-import type { ErrandFile, Finding } from './types.js';
+import { refusesCall, scanForNumbers, scanForProhibited } from './budget';
+import type { ErrandFile, Finding } from './types';
 
 const timeWindow = z.object({
   start: z.string().min(1),

@@ -9,13 +9,13 @@
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { loadErrand } from '../src/core/errand.js';
-import { buildScript, formatWindow } from '../src/core/script.js';
-import { runChain } from '../src/core/chain.js';
-import { CalleProvider, FixtureProvider } from '../src/core/calle.js';
-import type { CallProvider } from '../src/core/calle.js';
-import type { ChainState } from '../src/core/chain.js';
-import type { LegResult } from '../src/core/types.js';
+import { loadErrand } from '../src/core/errand';
+import { buildScript, formatWindow } from '../src/core/script';
+import { runChain } from '../src/core/chain';
+import { CalleProvider, FixtureProvider } from '../src/core/calle';
+import type { CallProvider } from '../src/core/calle';
+import type { ChainState } from '../src/core/chain';
+import type { LegResult } from '../src/core/types';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const FIXTURES = path.join(root, 'fixtures/legs');

@@ -8,7 +8,7 @@
  * against the provider's name rather than silently adopted.
  */
 
-import type { BoundAnswer, Question, Turn } from './types.js';
+import type { BoundAnswer, Question, Turn } from './types';
 
 const STOPWORDS = new Set([
   'a', 'an', 'the', 'is', 'are', 'do', 'does', 'did', 'you', 'your', 'i', 'we',

@@ -11,8 +11,8 @@ import {
   refusesCall,
   scanForNumbers,
   scanForProhibited,
-} from './budget.js';
-import type { ErrandFile, Finding } from './types.js';
+} from './budget';
+import type { ErrandFile, Finding } from './types';
 
 export interface GeneratedScript {
   /** The goal text handed to CALL-E. */

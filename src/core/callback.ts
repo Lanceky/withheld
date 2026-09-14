@@ -12,7 +12,7 @@
  * human. The caller proposing a time and nobody objecting is not agreement.
  */
 
-import type { AgreedWindow, Turn } from './types.js';
+import type { AgreedWindow, Turn } from './types';
 
 const CALLBACK_OFFER =
   /\b(call|ring|phone|get back to|reach out to|come back to)\s+(you|him|her|them)\b|\bwe'?ll\s+be\s+in\s+touch\b|\bsomeone\s+will\s+(call|ring|phone)\b|\bhave\s+(?:someone|them|him|her)\s+(call|ring|phone)\b/i;

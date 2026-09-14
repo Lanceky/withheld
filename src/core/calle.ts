@@ -29,8 +29,8 @@
 
 import { readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
-import type { CallStatus, Turn } from './types.js';
-import type { ProviderClaim } from './transcript.js';
+import type { CallStatus, Turn } from './types';
+import type { ProviderClaim } from './transcript';
 
 export interface CallRequest {
   to: string;

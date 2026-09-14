@@ -12,10 +12,10 @@
  * parsing bug.
  */
 
-import { buildScript } from './script.js';
-import { runLeg } from './leg.js';
-import type { CallProvider } from './calle.js';
-import type { ErrandFile, LegResult, TimeWindow } from './types.js';
+import { buildScript } from './script';
+import { runLeg } from './leg';
+import type { CallProvider } from './calle';
+import type { ErrandFile, LegResult, TimeWindow } from './types';
 
 export interface ScheduledIntent {
   errand_id: string;

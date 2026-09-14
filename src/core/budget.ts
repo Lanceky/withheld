@@ -11,7 +11,7 @@
  * privacy report.
  */
 
-import type { Finding, FindingKind } from './types.js';
+import type { Finding, FindingKind } from './types';
 
 const DIGIT_WORDS: Record<string, string> = {
   zero: '0',
