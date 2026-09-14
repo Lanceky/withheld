@@ -10,23 +10,23 @@ import {
   scanForProhibited,
 } from './budget';
 
-const PERSON = '+254712345678';
+const PERSON = '+447700900456';
 
 describe('the number gate', () => {
   it('catches the number written plainly', () => {
-    expect(containsNumber('You can reach them on +254712345678.', PERSON)).toBe(true);
+    expect(containsNumber('You can reach them on +447700900456.', PERSON)).toBe(true);
   });
 
   it('catches the number however it is punctuated', () => {
-    expect(containsNumber('call 0712 345 678 any time', PERSON)).toBe(true);
-    expect(containsNumber('try (0712) 345-678', PERSON)).toBe(true);
-    expect(containsNumber('254-712-345-678', PERSON)).toBe(true);
+    expect(containsNumber('call 07700 900 456 any time', PERSON)).toBe(true);
+    expect(containsNumber('try (07700) 900-456', PERSON)).toBe(true);
+    expect(containsNumber('44-7700-900-456', PERSON)).toBe(true);
   });
 
   it('catches the number read aloud, which is how it would actually leak', () => {
     expect(
       containsNumber(
-        'it is zero seven one two three four five six seven eight',
+        'it is oh double seven oh oh nine oh oh four five six',
         PERSON,
       ),
     ).toBe(true);
@@ -34,7 +34,10 @@ describe('the number gate', () => {
 
   it('catches "oh" for zero', () => {
     expect(
-      containsNumber('oh seven one two three four five six seven eight', PERSON),
+      containsNumber(
+        'zero double seven zero zero nine zero zero four five six',
+        PERSON,
+      ),
     ).toBe(true);
   });
 
@@ -70,10 +73,11 @@ describe('the number gate', () => {
 
 describe('masking', () => {
   it('never reproduces the secret it is reporting', () => {
-    const masked = maskSecret('254712345678');
-    expect(masked).not.toContain('712345');
-    expect(masked.startsWith('25')).toBe(true);
-    expect(masked.endsWith('78')).toBe(true);
+    const masked = maskSecret('447700900456');
+    expect(masked).not.toContain('7700900');
+    expect(masked).not.toContain('900456');
+    expect(masked.startsWith('44')).toBe(true);
+    expect(masked.endsWith('56')).toBe(true);
   });
 });
 

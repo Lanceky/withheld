@@ -4,7 +4,7 @@
  * The console masks the number on screen, which is worth nothing on its own: a
  * React server component serialises every prop it passes into the page as RSC
  * payload, so an errand handed to a client component whole would render as
- * `+2*********78` and read as `+254712345678` in view-source.
+ * `+4*********56` and read as `+447700900456` in view-source.
  *
  * That happened during development. These tests exist so it cannot happen
  * again quietly.

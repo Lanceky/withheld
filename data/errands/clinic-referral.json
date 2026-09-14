@@ -2,13 +2,13 @@
   "errand_id": "clinic-referral-0001",
   "person": {
     "name": "Amina Otieno",
-    "phone": "+254712345678"
+    "phone": "+447700900456"
   },
   "callee": {
-    "name": "Riverside Family Clinic",
-    "phone": "+12025550143"
+    "name": "Riverside Family Practice",
+    "phone": "+442079460321"
   },
-  "reason": "Amina is Deaf. The clinic has no SMS or email booking line, and the online form has been unavailable for months. This field stays local and is never sent to the provider.",
+  "reason": "Amina is Deaf and does not use voice calls. The practice takes appointments by phone only: there is no SMS line, the inbox is unmonitored, and the online form has been unavailable for months. This field stays local and is never sent to the provider.",
   "goal": "Book a follow-up appointment for an existing patient, and find out whether a sign language interpreter can be arranged for the visit.",
   "questions": [
     {

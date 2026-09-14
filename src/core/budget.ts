@@ -52,9 +52,10 @@ function onlyDigits(s: string): string {
 /**
  * Expand spoken digit sequences into digits.
  *
- * People read numbers aloud on phone calls, so "zero seven one two..." has to be
- * caught as readily as "0712...". Handles "oh" for zero and the British/Kenyan
- * habit of saying "double seven".
+ * People read numbers aloud on phone calls, so "oh double seven oh oh..." has
+ * to be caught as readily as "07700...". A scan that only looks for digits
+ * misses the single most likely way a number actually leaves a call. Handles
+ * "oh" for zero and the habit of saying "double seven" for 77.
  */
 export function expandSpokenDigits(text: string): string {
   const tokens = text
@@ -130,8 +131,8 @@ function digitRuns(text: string): string[] {
 /**
  * Does this text contain the person's own number, in any form?
  *
- * This is the invariant check. Compares trailing digits so that +254712345678,
- * 0712 345 678 and "oh seven one two three four five six seven eight" all
+ * This is the invariant check. Compares trailing digits so that +447700900456,
+ * 07700 900 456 and "oh double seven oh oh nine oh oh four five six" all
  * resolve to the same number.
  */
 export function containsNumber(text: string, target: string): boolean {

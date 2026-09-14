@@ -119,7 +119,7 @@ describe('runChain', () => {
       ...errand(),
       disclosure_budget: [
         ...errand().disclosure_budget,
-        'you can reach the patient on +254712345678',
+        'you can reach the patient on +447700900456',
       ],
     };
     const state = await chain(['errand-complete'], leaky);
