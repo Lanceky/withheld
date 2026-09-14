@@ -1,8 +1,8 @@
 # Working on Withheld
 
-This is a Next.js + TypeScript app, not an Expo project. If you find an Expo
-reference anywhere, it is a leftover from the repository's previous life and
-should be removed.
+A Next.js + TypeScript app. The core (`src/core`) is plain TypeScript with no
+framework imports and is the part worth reading first; the console in `src/app`
+is a thin viewer over it.
 
 ## The one rule
 
