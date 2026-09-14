@@ -221,18 +221,63 @@ land as the reason it matters. The errand on screen should be one anyone recogni
 
 ## 12. Submission checklist
 
-- [x] PR opened — **CALLE-AI/awesome-phone-call-agents#652**, 41 files, `MERGEABLE`
+- [x] PR opened — **CALLE-AI/awesome-phone-call-agents#652**, 43 files, `MERGEABLE`
 - [x] PR text credits `call-on-behalf` as prior art and states the additive scope
 - [x] `python3 scripts/validate_repository.py` passes from a clean clone
-- [x] 87 tests pass, `tsc --noEmit` clean, `next build` succeeds from inside the
+- [x] 123 tests pass, `tsc --noEmit` clean, `next build` succeeds from inside the
       submission repo after a fresh `npm install`
 - [x] Awesome-list row added — placed inside the *contiguous* table, since a stray
       blank line above `positive-contact` terminates the table early and rows
       appended there do not render
 - [x] All committed numbers in Ofcom drama ranges, guarded by `numbers.test.ts`
-- [ ] **CALL-E imported and invoked at runtime** — code path exists; needs the key
+- [x] Both CALL-E surfaces integrated — SDK (`--via=sdk`) and CLI (`--via=cli`),
+      so the credential the official install guide actually produces is usable
+- [ ] **A real call placed** — both code paths exist and refuse correctly without
+      a credential; blocked only on finishing `calle auth login` in a browser
 - [ ] Devpost form includes the PR URL
 - [ ] ~3-minute public YouTube/Vimeo demo
 - [ ] CALL-E account email included
 - [ ] CALL-E Feedback Survey submitted (5 × $200 — the best odds in the event, and
-      the RSC leak above is exactly the kind of finding that wins it)
+      §13 below is exactly the kind of finding that wins it)
+
+---
+
+## 13. Feedback survey material (found while building, all reproducible)
+
+**1. Two official packages install the same binary name.** `@call-e/cli` and the
+SDK `@call-e/calle` both install a command called `calle`, and they share no
+commands. With the SDK as a project dependency, anything that puts
+`node_modules/.bin` on `PATH` — `npm run`, `npx`, `pnpm` — silently gets the
+SDK's binary, and every CLI command fails with `Unknown command: auth`. That
+reads like a broken install or a bad login, not a name collision, so the
+diagnosis is very hard to reach from the error alone. Reproduces in a clean
+clone with `npm install && npm run withheld -- run … --via=cli`. Suggested fix:
+rename one of them, or have the SDK binary detect the mistake and say so.
+
+**2. The installation guide produces a credential the SDK cannot use.** The
+guide ends at `calle auth login`, which authorises the MCP CLI against
+`seleven-mcp-sg.airudder.com`. The SDK wants `CALLE_API_KEY` against
+`api.heycall-e.com`. Nothing in the guide says these are different systems, so
+following it end-to-end and then reaching for the SDK — the natural path for a
+hackathon build — dead-ends. Withheld ships both providers because of this.
+
+**3. The CLI returns the transcript as one opaque string.** The SDK returns
+labelled turns with a `bot | user | unknown` speaker. The CLI does not, so any
+integration that needs to know *who said what* has to re-derive it by parsing,
+and the format is undocumented. For anything safety-relevant this is the
+difference between evidence and a guess. See §8 for how Withheld fails closed
+around it.
+
+**4. The CLI has no idempotency key.** The SDK accepts one; the CLI does not,
+and instead reports `call_started: "unknown"` with `retry_safe: false`. That
+correctly signals ambiguity, but it leaves the caller with no safe way to
+resolve it other than `calle call recover`. An idempotency key would make the
+retry decision mechanical instead of a judgement call about a real person's
+phone ringing twice.
+
+**5. Framework-level leak risk worth documenting.** Next.js serialises *every*
+prop passed to a client component into the RSC flight payload, including fields
+never rendered. An app that holds a phone number server-side and passes a result
+object to a client component will ship that number to the browser in the page
+source. This bit this project during the build (see §11) and will bite anyone
+building a CALL-E dashboard the obvious way. Worth a warning in the docs.
