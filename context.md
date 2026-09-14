@@ -186,24 +186,53 @@ land as the reason it matters. The errand on screen should be one anyone recogni
 
 - [x] **Name collision** — `ringfence` taken (`apps/python/ringfence`, fraud
       verification). `withheld` checked clear across `apps/`, `skills/`, `plugins/`.
-- [x] **Differentiation holds** — `wever-callback` (consignment boutique returning a
-      customer's requested callback) and `evidence-grounded-callback` (consent-receipt
-      gated business callback) are both *business calls a customer back*. Neither
-      converts an inbound obligation into a scheduled outbound leg, and neither treats
-      non-disclosure of the number as the goal. `call-on-behalf` stops after one call.
-- [ ] **CALL-E scheduling surface** — confirm how a future-dated call intent is
-      expressed, and keep recurrence with the host scheduler.
-- [ ] **Can the agent hold the line?** Prompt instructions are not guaranteed
-      enforcement. The number must be blocked at the **script-generation gate**, not
-      trusted to the model — and the post-call scan must verify it never leaked.
-- [ ] **Call budget** — 20 free calls. A chain burns 2+ per errand. Request more now.
+- [x] **Differentiation holds — but narrower than first assumed.** `call-on-behalf`
+      (merged 14 Sep 2026) is a much closer neighbour than the earlier survey found:
+      it independently arrived at the authorised-fact list (its term: "disclosure
+      budget"), three gates, masked findings, transcript-bound answers, acceptance
+      windows, and reason-stays-local. Treat all of that as **convergent prior art,
+      not novelty.** Mitigations applied: renamed `disclosure_budget` → `may_say`
+      throughout to stop borrowing their headline vocabulary, and rewrote the README
+      prior-art section to concede the overlap outright.
+      What survives a repo-wide search as genuinely unclaimed: the **callback gate**
+      (refusing "we'll call you back" and converting it to a window) and the
+      **multi-leg chain** built on it. Zero hits for `good time to call you` or
+      `cannot take incoming calls` anywhere in the repo. That mechanic is the
+      contribution; everything else is table stakes.
+- [x] **Can the agent hold the line?** Resolved by construction rather than by
+      prompt. The number is blocked at the **script-generation gate** (`buildScript`
+      throws rather than emit it), the recipient result schema has **no phone field
+      to populate**, and the post-call scan re-checks every transcript — including
+      digits spoken as words. A leak forces `outcome_unknown` and halts the chain
+      even on a successful booking.
+- [x] **Unplanned leak class found and closed** — Next.js serialises *every* prop
+      passed to a client component into the RSC flight payload. The number rendered
+      masked on screen but was fully readable in view-source. `getErrand()` now
+      builds its payload field-by-field (never by spread, which would silently ship
+      future fields), locked by `src/app/boundary.test.ts`.
+- [ ] **CALL-E scheduling surface** — still unconfirmed. Deliberately side-stepped:
+      Withheld emits a `ScheduledIntent` and stops, leaving recurrence to the host.
+      That is the safe default regardless of what the API turns out to support.
+- [ ] **Live path unexercised** — no API key was ever provided, so `run --real` is
+      written against the documented API but has never hit it. Disclosed in both the
+      README and the PR rather than papered over. **This is the one real gap.**
+- [ ] **Call budget** — 20 free calls; a chain burns 2+ per errand. Only matters once
+      a key exists.
 
 ## 12. Submission checklist
 
-- [ ] CALL-E imported and actually invoked at runtime (not merely referenced)
-- [ ] PR to `CALLE-AI/awesome-phone-call-agents` under `apps/`
-- [ ] PR text credits `call-on-behalf` as prior art and states the additive scope
+- [x] PR opened — **CALLE-AI/awesome-phone-call-agents#652**, 41 files, `MERGEABLE`
+- [x] PR text credits `call-on-behalf` as prior art and states the additive scope
+- [x] `python3 scripts/validate_repository.py` passes from a clean clone
+- [x] 87 tests pass, `tsc --noEmit` clean, `next build` succeeds from inside the
+      submission repo after a fresh `npm install`
+- [x] Awesome-list row added — placed inside the *contiguous* table, since a stray
+      blank line above `positive-contact` terminates the table early and rows
+      appended there do not render
+- [x] All committed numbers in Ofcom drama ranges, guarded by `numbers.test.ts`
+- [ ] **CALL-E imported and invoked at runtime** — code path exists; needs the key
 - [ ] Devpost form includes the PR URL
 - [ ] ~3-minute public YouTube/Vimeo demo
 - [ ] CALL-E account email included
-- [ ] CALL-E Feedback Survey submitted (5 × $200 — the best odds in the event)
+- [ ] CALL-E Feedback Survey submitted (5 × $200 — the best odds in the event, and
+      the RSC leak above is exactly the kind of finding that wins it)
