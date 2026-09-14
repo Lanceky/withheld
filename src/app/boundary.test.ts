@@ -55,7 +55,7 @@ describe('the client boundary', () => {
 
     expect(errand.person.name).toBeTruthy();
     expect(errand.callee.name).toBeTruthy();
-    expect(errand.disclosure_budget.length).toBeGreaterThan(0);
+    expect(errand.may_say.length).toBeGreaterThan(0);
     expect(errand.acceptable_windows.length).toBeGreaterThan(0);
   });
 
@@ -87,7 +87,7 @@ describe('the leaked-number scenario', () => {
 
     expect(leg.number_disclosed).toBe(true);
 
-    const findings = leg.budget_violations.filter(
+    const findings = leg.outside_may_say_findings.filter(
       (v) => v.kind === 'phone_number',
     );
     expect(findings.length).toBeGreaterThan(0);

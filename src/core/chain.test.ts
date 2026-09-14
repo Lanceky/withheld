@@ -90,7 +90,7 @@ describe('runChain', () => {
 
     expect(state.legs[0].status).toBe('not_terminal');
     expect(state.legs[0].answers).toHaveLength(0);
-    expect(state.legs[0].budget_violations).toHaveLength(0);
+    expect(state.legs[0].outside_may_say_findings).toHaveLength(0);
   });
 
   it('hands over to a human when the callee will not name any time', async () => {
@@ -117,8 +117,8 @@ describe('runChain', () => {
   it('places no call at all when the script fails its own number gate', async () => {
     const leaky: ErrandFile = {
       ...errand(),
-      disclosure_budget: [
-        ...errand().disclosure_budget,
+      may_say: [
+        ...errand().may_say,
         'you can reach the patient on +447700900456',
       ],
     };

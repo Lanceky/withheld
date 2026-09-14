@@ -176,7 +176,7 @@ export function scanForProhibited(
         kind: 'payment_card',
         masked: maskSecret(digits),
         where,
-        note: 'Payment card numbers are refused outright, whatever the budget says.',
+        note: 'Payment card numbers are refused outright, whatever the errand file says.',
       });
     }
   }
@@ -186,7 +186,7 @@ export function scanForProhibited(
       kind: 'password',
       masked: maskSecret(text.match(PASSWORD_HINT)?.[0] ?? 'password'),
       where,
-      note: 'Credentials are refused outright, whatever the budget says.',
+      note: 'Credentials are refused outright, whatever the errand file says.',
     });
   }
 
@@ -195,7 +195,7 @@ export function scanForProhibited(
       kind: 'national_id',
       masked: maskSecret(text.match(NATIONAL_ID_HINT)?.[0] ?? 'national id'),
       where,
-      note: 'National identifiers are refused outright, whatever the budget says.',
+      note: 'National identifiers are refused outright, whatever the errand file says.',
     });
   }
 
@@ -272,10 +272,10 @@ export function scanAgainstBudget(
     );
     if (!covered) {
       findings.push({
-        kind: 'outside_budget',
+        kind: 'outside_may_say',
         masked: maskSecret(match[0]),
         where,
-        note: 'A personal detail with no matching line in the disclosure budget.',
+        note: 'A personal detail with no matching line in may_say.',
       });
     }
   }

@@ -114,9 +114,9 @@ function printLeg(result: LegResult): void {
     for (const d of result.disclosed_about_person) console.log(`      - ${d}`);
   }
 
-  if (result.budget_violations.length) {
+  if (result.outside_may_say_findings.length) {
     console.log(`\n    ${c.red('budget violations')} ${c.dim('(masked)')}`);
-    for (const v of result.budget_violations) {
+    for (const v of result.outside_may_say_findings) {
       console.log(`      ${v.kind}: ${v.masked}`);
       console.log(`        ${c.dim(v.note)}`);
     }

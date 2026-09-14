@@ -236,7 +236,7 @@ about not disclosing numbers to fail.
 ```
 src/core/
   types.ts        domain types; terminal statuses
-  budget.ts       the disclosure gate — spoken-digit expansion, masking, scanning
+  budget.ts       the speech gate — spoken-digit expansion, masking, scanning
   callback.ts     the callback gate — offers, number demands, window extraction
   transcript.ts   evidence binding; provider claims that nothing supports
   script.ts       script generation, and the gate that can refuse to dial
@@ -253,17 +253,37 @@ data/errands/     the demo errand
 
 ## Prior art, and what is different
 
-[`call-on-behalf`](../call-on-behalf) in this repository already makes a call on
-behalf of someone who cannot. It is good, and Withheld is not a replacement for
-it — the two compose. The difference is scope: `call-on-behalf` is outbound,
-one call, one direction, and it ends when the call ends. Withheld starts where
-that stops, at the sentence *"we'll call you back"*, and treats the inbound leg
-as a thing to be converted rather than accepted.
+[`call-on-behalf`](../call-on-behalf) in this repository already makes a
+delegated call for someone who cannot make it themselves, and it is the closest
+neighbour by a wide margin. Read it before this one.
 
-[`is-it-accessible`](../../../skills/is-it-accessible) and
-[`accesscall`](../accesscall) cover adjacent accessibility ground — asking
-venues about access, and access-aware calling. Neither addresses the callback
-asymmetry.
+**What the two share, and why.** Both authorise a list of facts the caller may
+state, scan the script before dialling and the transcript afterwards, mask
+findings in the report, bind every reported answer to a callee turn, accept
+commitments only inside declared windows, and keep the person's reason for
+delegating out of the call entirely. That convergence is not coincidence and is
+not a claim of originality on this side: those are close to the only defensible
+answers to "what may a machine say about someone on a call," and anyone
+building carefully in this space arrives at most of them. Where the two
+overlap, treat `call-on-behalf` as prior art.
+
+**What is actually new here** is one sentence and its consequences: *"we'll call
+you back."* `call-on-behalf` makes one call and ends when the call ends — a
+callback offer is a fine outcome for it, because its user can take the callback.
+Withheld's user cannot, so the offer is a dead end, and the app is built around
+converting it: the agent declines the callback, asks for a window to call *in*,
+and the errand continues across legs until it is done or a human is handed it.
+Two things fall out that `call-on-behalf` does not need and does not have — a
+**callback gate** with its own status ladder and refusal path, and a **multi-leg
+chain** that proposes when to dial next instead of scheduling it. Because no
+callback is ever accepted, there is also no number to give, so the
+never-disclose property stops being a promise the model has to keep and becomes
+a fact about the schema.
+
+Adjacent but not overlapping: [`is-it-accessible`](../../../skills/is-it-accessible)
+and [`accesscall`](../../../skills/accesscall) ask venues about access and run
+accessibility intake. They are about gathering access information, not about the
+callback asymmetry.
 
 ---
 
@@ -292,7 +312,7 @@ asymmetry.
   person. The agent identifies itself as automated in its first sentence and
   says so again if asked directly.
 - **Anything requiring identity verification, payment, or legal consent** on the
-  call. The disclosure budget is a list of facts, not a mandate.
+  call. The may_say list is a list of facts, not a mandate.
 - **Calling someone who has asked not to be called.**
 
 ---

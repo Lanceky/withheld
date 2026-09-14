@@ -68,7 +68,7 @@ describe('loading an errand file', () => {
 
   it('refuses a budget that authorises a payment card, whatever the file says', () => {
     const raw = base();
-    (raw.disclosure_budget as string[]).push(
+    (raw.may_say as string[]).push(
       'the card on file is 4111 1111 1111 1111',
     );
     const loaded = loadErrand(raw);
@@ -82,7 +82,7 @@ describe('loading an errand file', () => {
 
   it('refuses a budget containing the person\u2019s own number', () => {
     const raw = base();
-    (raw.disclosure_budget as string[]).push(
+    (raw.may_say as string[]).push(
       'they can be reached on +447700900456',
     );
     const loaded = loadErrand(raw);

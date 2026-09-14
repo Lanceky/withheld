@@ -209,9 +209,9 @@ function Leg({ result, turns }: { result: LegResult; turns: Turn[] }) {
           </>
         )}
 
-        {result.budget_violations.length > 0 && (
+        {result.outside_may_say_findings.length > 0 && (
           <ul className="violations">
-            {result.budget_violations.map((v, i) => (
+            {result.outside_may_say_findings.map((v, i) => (
               <li key={i}>
                 <span className="masked">
                   {v.kind} · {v.masked}
@@ -283,7 +283,7 @@ export default function Console({ errand }: { errand: ClientErrand }) {
 
             <h3>They may say only this</h3>
             <ul className="budget">
-              {errand.disclosure_budget.map((d) => (
+              {errand.may_say.map((d) => (
                 <li key={d}>{d}</li>
               ))}
             </ul>

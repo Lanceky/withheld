@@ -52,7 +52,7 @@ export function formatWindow(start: string, end: string): string {
 }
 
 export function buildScript(errand: ErrandFile): GeneratedScript {
-  const budget = errand.disclosure_budget.map((b) => `  - ${b}`).join('\n');
+  const budget = errand.may_say.map((b) => `  - ${b}`).join('\n');
   const questions = errand.questions
     .map((q, i) => `  ${i + 1}. ${q.ask}`)
     .join('\n');

@@ -99,7 +99,7 @@ export async function getErrand(): Promise<ClientErrand> {
     },
     callee: { name: errand.callee.name },
     reason: errand.reason,
-    disclosure_budget: errand.disclosure_budget,
+    may_say: errand.may_say,
     acceptable_windows: errand.acceptable_windows.map((w) => ({
       start: w.start,
       end: w.end,

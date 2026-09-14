@@ -56,7 +56,7 @@ export const errandSchema = z.object({
   questions: z
     .array(z.object({ id: z.string().min(1), ask: z.string().min(1) }))
     .min(1),
-  disclosure_budget: z.array(z.string().min(1)),
+  may_say: z.array(z.string().min(1)),
   acceptable_windows: z.array(timeWindow).min(1),
   never_disclose: z.array(z.string()).optional(),
 });
@@ -86,7 +86,7 @@ export function loadErrand(raw: unknown): LoadResult {
   }
 
   const errand = parsed.data as ErrandFile;
-  const budgetText = errand.disclosure_budget.join('\n');
+  const budgetText = errand.may_say.join('\n');
   const questionText = errand.questions.map((q) => q.ask).join('\n');
   const surface = [budgetText, questionText, errand.goal].join('\n');
 

@@ -59,7 +59,7 @@ function emptyResult(
     number_disclosed: false,
     agreed_window: EMPTY_WINDOW,
     disclosed_about_person: [],
-    budget_violations: [],
+    outside_may_say_findings: [],
     next_action: nextAction,
     transcript_ref: input.transcriptRef,
   };
@@ -109,7 +109,7 @@ export function runLeg(input: LegInput): LegResult {
       where: 'caller_speech',
     }),
     ...scanForProhibited(callerSpeech, 'caller_speech'),
-    ...scanAgainstBudget(callerSpeech, errand.disclosure_budget, 'caller_speech'),
+    ...scanAgainstBudget(callerSpeech, errand.may_say, 'caller_speech'),
     ...scanForNumbers({
       text: unattributedSpeech,
       personPhone: errand.person.phone,
@@ -124,7 +124,7 @@ export function runLeg(input: LegInput): LegResult {
 
   // 3. Evidence-bound answers.
   const answers = bindAnswers(errand.questions, turns, input.providerClaims);
-  const disclosed = disclosedFromBudget(turns, errand.disclosure_budget);
+  const disclosed = disclosedFromBudget(turns, errand.may_say);
 
   // 4. The callback gate.
   const offer = detectCallbackOffer(turns);
@@ -141,7 +141,7 @@ export function runLeg(input: LegInput): LegResult {
     number_disclosed: numberDisclosed,
     agreed_window: parsed.window,
     disclosed_about_person: disclosed,
-    budget_violations: violations,
+    outside_may_say_findings: violations,
     next_action: 'errand_complete',
     transcript_ref: input.transcriptRef,
   };

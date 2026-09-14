@@ -41,7 +41,7 @@ has four independent enforcement points:
 
 | Where | What happens |
 | --- | --- |
-| Errand load | A disclosure budget containing the person's own number is refused; no script is generated. |
+| Errand load | A may_say list containing the person's own number is refused; no script is generated. |
 | Script generation | `buildScript` refuses to emit a script containing the number. `safeToDial` is false and the CLI will not proceed. |
 | Request construction | The result schema sent to CALL-E has no field for a phone number in either direction. There is nothing to fill in. |
 | After the call | Every leg re-scans the caller's turns for the number in any form — punctuated, regrouped, or read aloud as "oh double seven oh oh…". |
@@ -79,8 +79,8 @@ never be investigated.
 
 ## 4. Categories refused outright
 
-These are refused **whatever the disclosure budget says**, because a budget that
-authorises them is a malformed budget, not permission:
+These are refused **whatever may_say says**, because a list that
+authorises them is a malformed list, not permission:
 
 - payment card numbers — any card-shaped run of 13–19 digits
 - passwords, API keys, and other credentials
@@ -109,7 +109,7 @@ TRS / 711](https://www.fcc.gov/trs).
 
 **No advice, in either direction.** The script instructs the agent not to give
 medical, legal, or financial advice or opinions, and not to answer anything
-outside the disclosure budget — it offers to check with the person instead.
+outside may_say — it offers to check with the person instead.
 
 This one is an *instruction*, and instructions are not guarantees. The
 complement is `advisoryFlags`, which scans the errand file before dialing and

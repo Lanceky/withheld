@@ -14,7 +14,7 @@ export interface ClientErrand {
   person: { name: string; phone_masked: string };
   callee: { name: string };
   reason: string;
-  disclosure_budget: string[];
+  may_say: string[];
   acceptable_windows: { start: string; end: string }[];
 }
 

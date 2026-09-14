@@ -91,7 +91,7 @@ export interface ErrandFile {
    * The exact facts that may be spoken aloud. Anything about the person that is
    * not in this list must not reach the script or the call.
    */
-  disclosure_budget: string[];
+  may_say: string[];
   /** Windows in which the person will accept an arrangement. */
   acceptable_windows: TimeWindow[];
   /** Extra items barred regardless of anything else in the file. */
@@ -103,7 +103,7 @@ export type FindingKind =
   | 'payment_card'
   | 'national_id'
   | 'password'
-  | 'outside_budget';
+  | 'outside_may_say';
 
 export interface Finding {
   kind: FindingKind;
@@ -155,7 +155,7 @@ export interface LegResult {
   number_disclosed: boolean;
   agreed_window: AgreedWindow;
   disclosed_about_person: string[];
-  budget_violations: Finding[];
+  outside_may_say_findings: Finding[];
   next_action: NextAction;
   transcript_ref: string;
 }

@@ -94,9 +94,9 @@ describe('the invariant', () => {
       now: new Date(fixture.now),
     });
 
-    const report = JSON.stringify(result.budget_violations);
+    const report = JSON.stringify(result.outside_may_say_findings);
     expect(report).not.toContain('712345678');
-    expect(result.budget_violations.length).toBeGreaterThan(0);
+    expect(result.outside_may_say_findings.length).toBeGreaterThan(0);
   });
 
   it('a booked appointment does not excuse a leaked number', () => {
@@ -130,6 +130,6 @@ describe('non-terminal calls', () => {
     expect(result.status).toBe('not_terminal');
     expect(result.agreed_window.start).toBeNull();
     expect(result.answers).toEqual([]);
-    expect(result.budget_violations).toEqual([]);
+    expect(result.outside_may_say_findings).toEqual([]);
   });
 });

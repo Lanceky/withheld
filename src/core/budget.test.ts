@@ -116,7 +116,7 @@ describe('the disclosure budget', () => {
       'caller_speech',
     );
     expect(findings.some((f) => f.masked.length > 0)).toBe(true);
-    expect(findings.every((f) => f.kind === 'outside_budget')).toBe(true);
+    expect(findings.every((f) => f.kind === 'outside_may_say')).toBe(true);
   });
 
   it('stays quiet about a detail the budget does cover', () => {
