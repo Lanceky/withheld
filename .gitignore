@@ -10,3 +10,7 @@ dist/
 
 .DS_Store
 *.log
+
+# working docs, not part of the submission
+pitch.md
+context.md
