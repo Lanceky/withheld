@@ -158,29 +158,34 @@ Target `apps/typescript/withheld/` — the app lane, which is what maintainers f
 - Web, not React Native: reviewers can run it, and AAC / screen-reader users are
   overwhelmingly on tablets and desktops.
 
-## 10. Demo video outline (~3 min)
+## 10. Demo video — shot-by-shot recording script (~3 min)
 
 **Framing rule (legibility):** open on the *universal* experience, then narrow. Do not
 open on accessibility — open on the sentence everyone has heard, and let the access case
 land as the reason it matters. The errand on screen should be one anyone recognises
 (a clinic booking), not an abstract scenario.
 
-> Cold open: *"Every errand ends the same way: 'we'll call you back.' For some people,
-> that sentence ends the errand."*
+**Before recording**
+- `npm run dev`, open `http://localhost:3000` — do *not* pre-click a scenario.
+- Second terminal, cleared, in the repo root, font size up.
+- Close every other tab. The console is the only thing on screen.
+- Have `?s=leaked` ready as the last beat; it is the most persuasive single frame.
 
-1. **The sentence (25s)** — an ordinary clinic booking. Call one goes fine. Then:
-   *"the nurse will call you back."* Reveal the asymmetry: an unscheduled call from an
-   unknown number, no text fallback. The errand is now stuck, permanently.
-2. **Errand file (20s)** — disclosure budget, acceptable windows, number marked
-   never-disclose.
-3. **Leg 1, live (60s)** — CALL-E dials. The callee offers to ring back. **The agent
-   declines and asks for a window instead, and holds the line when pressed for the
-   number.** This is the money shot.
-4. **The chain advances (30s)** — window extracted with its supporting quote; leg 2
-   scheduled into it; console updates.
-5. **Written return (20s)** — answers with quoted turns, disclosure ledger showing
-   `number_disclosed: false`.
-6. **Close (15s)** — it composes with `call-on-behalf`; what ships next.
+| # | Time | On screen | Say (verbatim) |
+| --- | --- | --- | --- |
+| 1 | 0:00–0:20 | Title card, then the console idle | "Every errand ends the same way. *We'll call you back.* For most of us that's mildly annoying. If you're Deaf, or you can't speak on a phone — that sentence ends the errand. Permanently. A callback is a door you cannot open." |
+| 2 | 0:20–0:40 | `data/errands/clinic-referral.json` in the editor. Highlight `may_say`, `windows`, and the number field | "So here's the errand. What the agent is allowed to say — that's the whole list. When I'm reachable. And my number, which is marked never-disclose. Not 'please don't share it.' There is no field in the result schema to put it in." |
+| 3 | 0:40–1:00 | `npm run withheld -- preview data/errands/clinic-referral.json` | "Before anything dials, I can read exactly what it will say, and every gate it passed. Nothing has rung yet." |
+| 4 | 1:00–1:50 | Console, click **Leg 1**. Let the timeline fill. Pause on the callback turn | "CALL-E dials the clinic. It goes normally — until this. *'Can the patient call us back?'* Watch what it does. **It declines.** And asks for a window to call *in* instead. That's the whole idea: never accept a callback, take a time instead. The person never answers a phone at any point." |
+| 5 | 1:50–2:10 | Timeline shows the window extracted with its supporting quote, then leg 2 proposed | "The window is bound to the turn that produced it. If nobody named an actual time, it says *unconfirmed* — it doesn't guess. And the chain only *proposes* leg two. It never schedules a call on its own." |
+| 6 | 2:10–2:35 | Switch to `?s=leaked`. Rail shows the masked number | "Now the uncomfortable case. Here the clinic says the number out loud — in words, not digits. It's still caught, still masked, and the report says so. Holding the line is the product, so a leak is reported, never hidden." |
+| 7 | 2:35–2:50 | Scroll the written report; `number_disclosed: false` | "Everything comes back in writing, because the person couldn't hear the call. Every answer carries the quote that supports it. No quote, no answer." |
+| 8 | 2:50–3:00 | README prior-art section | "It composes with `call-on-behalf`, which already does consent-scoped disclosure. What's new here is refusing the callback and chaining the legs. 131 tests, no call needed to run any of them." |
+
+**Do not say** "AI that makes phone calls." Say what it refuses to do.
+
+**If a live call is recorded instead of fixtures:** keep beat 4 live and leave the rest
+on fixtures. A live leg is worth the risk; a live chain is not, inside three minutes.
 
 ## 11. Open risks
 
