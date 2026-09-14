@@ -224,7 +224,7 @@ land as the reason it matters. The errand on screen should be one anyone recogni
 - [x] PR opened — **CALLE-AI/awesome-phone-call-agents#652**, 43 files, `MERGEABLE`
 - [x] PR text credits `call-on-behalf` as prior art and states the additive scope
 - [x] `python3 scripts/validate_repository.py` passes from a clean clone
-- [x] 123 tests pass, `tsc --noEmit` clean, `next build` succeeds from inside the
+- [x] 131 tests pass, `tsc --noEmit` clean, `next build` succeeds from inside the
       submission repo after a fresh `npm install`
 - [x] Awesome-list row added — placed inside the *contiguous* table, since a stray
       blank line above `positive-contact` terminates the table early and rows
@@ -232,8 +232,13 @@ land as the reason it matters. The errand on screen should be one anyone recogni
 - [x] All committed numbers in Ofcom drama ranges, guarded by `numbers.test.ts`
 - [x] Both CALL-E surfaces integrated — SDK (`--via=sdk`) and CLI (`--via=cli`),
       so the credential the official install guide actually produces is usable
-- [ ] **A real call placed** — both code paths exist and refuse correctly without
-      a credential; blocked only on finishing `calle auth login` in a browser
+- [x] **CALL-E authenticated and exercised at runtime** — `calle auth login`
+      completed, `mcp tools` returns `plan_call`/`run_call`/`get_call_run`, and
+      `CalleCliProvider.ensureAuthenticated()` passes against the live CLI
+- [x] Live `get_call_run` schema diffed against the reference; three silent
+      mismatches found and fixed (§13.7, §13.8)
+- [ ] **A real call placed** — needs a number the owner controls and explicit
+      consent; both paths are wired and verified up to the dial itself
 - [ ] Devpost form includes the PR URL
 - [ ] ~3-minute public YouTube/Vimeo demo
 - [ ] CALL-E account email included
@@ -281,3 +286,33 @@ never rendered. An app that holds a phone number server-side and passes a result
 object to a client component will ship that number to the browser in the page
 source. This bit this project during the build (see §11) and will bite anyone
 building a CALL-E dashboard the obvious way. Worth a warning in the docs.
+
+**6. The login session expires in ~25 minutes, and the CLI hangs instead of
+saying so.** `calle auth login --start-only` issues a session whose
+`expires_at` is about 25 minutes out. If you authorise after that — or run
+`calle auth login` against an expired session — the command polls **forever**
+with no output, no timeout, and no error. `calle auth status` keeps reporting
+`PENDING`, which looks like "your click hasn't landed yet" rather than "this
+session is dead." Cost us a full round-trip to diagnose. Suggested fix: print
+the expiry in the `--start-only` output, and have the poller exit with
+`session_expired` once `expires_at` passes.
+
+**7. Documented status spellings do not match the live schema.** The CLI
+reference lists `NO_ANSWER`; the live `get_call_run` output schema documents
+`NO ANSWER` with a space. It also lists `PREPARING` and `SCHEDULED`, which the
+reference does not mention at all. Because an unrecognised status is naturally
+treated as non-terminal, this failure is silent: a poll loop keeps running until
+it times out on every unanswered call, and nothing ever reports an error.
+Suggested fix: publish the status values as a closed enum in the schema rather
+than as an `example` string.
+
+**8. The transcript is not where the reference implies.** The CLI reference
+shows `structuredContent.transcript`; the live schema puts it at
+`structuredContent.result.transcript`. Reading the wrong key yields `null`,
+which is indistinguishable from a call in which nobody spoke — so an
+integration silently reports every errand as a no-answer instead of failing.
+Both spellings are cheap to accept, but the disagreement should be resolved.
+
+*(Findings 7 and 8 were found by reading the schema back from the authenticated
+`calle mcp tools` endpoint and diffing it against the reference doc — not by
+placing calls. Both are covered by tests in `calle-cli.test.ts`.)*
