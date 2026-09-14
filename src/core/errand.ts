@@ -10,20 +10,46 @@ import { z } from 'zod';
 import { refusesCall, scanForNumbers, scanForProhibited } from './budget';
 import type { ErrandFile, Finding } from './types';
 
-const timeWindow = z.object({
-  start: z.string().min(1),
-  end: z.string().min(1),
-});
+const timeWindow = z
+  .object({
+    start: z.string().min(1),
+    end: z.string().min(1),
+  })
+  .refine((w) => Number.isFinite(Date.parse(w.start)), {
+    message: 'start is not a parseable date',
+  })
+  .refine((w) => Number.isFinite(Date.parse(w.end)), {
+    message: 'end is not a parseable date',
+  })
+  .refine((w) => Date.parse(w.end) > Date.parse(w.start), {
+    message: 'window ends before it starts',
+  });
+
+/**
+ * E.164 and nothing else.
+ *
+ * A number this app will dial has to be unambiguous. National formats are not:
+ * `020 7946 0321` is a different telephone depending on which country decodes
+ * it, and a leading zero dropped by a spreadsheet turns one subscriber into
+ * another. Refusing anything but E.164 at load is cheaper than discovering it
+ * on the line.
+ */
+const e164 = z
+  .string()
+  .regex(
+    /^\+[1-9]\d{6,14}$/,
+    'must be E.164, starting with + and a country code (for example +442079460321)',
+  );
 
 export const errandSchema = z.object({
   errand_id: z.string().min(1),
   person: z.object({
     name: z.string().min(1),
-    phone: z.string().min(7),
+    phone: e164,
   }),
   callee: z.object({
     name: z.string().min(1),
-    phone: z.string().min(7),
+    phone: e164,
   }),
   reason: z.string(),
   goal: z.string().min(1),
